@@ -29,6 +29,7 @@
 using namespace JQUTIL_NS;
 
 static std::vector<std::string> exportList = {
+    // Uncomment module names below when enabling their exports.
     // "AI",
     // "IME",
     // "ScanInput",

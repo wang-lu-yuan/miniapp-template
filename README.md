@@ -92,6 +92,7 @@ static int module_init(JSContext *ctx, JSModuleDef *m)
 {
     auto env = JQUTIL_NS::JQModuleEnv::CreateModule(ctx, m, "custom");
 
+    // createMyModule(...) should return a JSValue (usually from a JQPublishObject factory).
     env->setModuleExport("MyModule", createMyModule(env.get()));
     env->setModuleExportDone(JS_UNDEFINED, exportList);
     return 0;
