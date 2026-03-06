@@ -27,7 +27,29 @@ const index = defineComponent({
     },
 
     methods: {
-        // TODO: Add your page methods here
+        /**
+         * 页面生命周期：页面进入前台
+         * 由 base-page.js 的 onShow() 代理调用
+         */
+        onShow() {
+            // TODO: 页面显示时的逻辑
+        },
+
+        /**
+         * 页面生命周期：页面进入后台
+         * 由 base-page.js 的 onHide() 代理调用
+         */
+        onHide() {
+            // TODO: 页面隐藏时的逻辑
+        },
+
+        /**
+         * 页面生命周期：页面卸载
+         * 由 base-page.js 的 onUnload() 代理调用
+         */
+        onUnload() {
+            // TODO: 页面卸载时的清理逻辑
+        },
     }
 });
 
