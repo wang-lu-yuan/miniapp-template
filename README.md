@@ -83,24 +83,25 @@ tar -xf <VERSIONINFO_FILENAME> -C jsapi
 # The .amr file will be in dist/
 ```
 
-## Extending: Registering New JS API Functions
+## Extending: Registering New JSAPI Modules
 
-Edit `jsapi/src/JSAPI.cpp` and add your functions inside `JSAPI::RegisterFunctions()`:
+Edit `jsapi/src/JSAPI.cpp` and add your module export in `module_init(...)`, then register it via `custom_init_jsapis()`:
 
 ```cpp
-void JSAPI::RegisterFunctions() {
-    JSAPI_REGISTER("myFunction", [](const nlohmann::json &params) -> nlohmann::json {
-        std::string input = params["input"].get<std::string>();
-        return nlohmann::json{{"result", "Hello, " + input}};
-    });
+static int module_init(JSContext *ctx, JSModuleDef *m)
+{
+    auto env = JQUTIL_NS::JQModuleEnv::CreateModule(ctx, m, "custom");
+
+    // createMyModule(...) should return a JSValue (usually from a JQPublishObject factory).
+    env->setModuleExport("MyModule", createMyModule(env.get()));
+    env->setModuleExportDone(JS_UNDEFINED, exportList);
+    return 0;
 }
-```
 
-Then call it from the Vue/JS layer:
-
-```javascript
-const result = await window.jsapi.myFunction({ input: "world" });
-console.log(result.result); // "Hello, world"
+extern "C" JQUICK_EXPORT void custom_init_jsapis()
+{
+    registerCModuleLoader("custom", &custom_module_load);
+}
 ```
 
 ## CI / GitHub Actions
@@ -122,4 +123,3 @@ This template is based on the work of:
 ## License
 
 This project is licensed under the [GNU General Public License v3.0](LICENSE).
-
