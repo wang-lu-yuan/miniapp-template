@@ -12,8 +12,8 @@ jobs:
       matrix:
         include:
           - device: a6p
-            toolchain_url: https://github.com/penosext/Cloudpan/releases/download/toolchains/armv7-eabihf--glibc--stable-2024.02-1.tar.bz2
-            toolchain_filename: armv7-eabihf--glibc--stable-2024.02-1.tar.bz2
+            toolchain_url: https://github.com/penosext/Cloudpan/releases/download/toolchains/armv7-eabihf--uclibc--bleeding-edge-2018.11-1.tar.bz2
+            toolchain_filename: armv7-eabihf--uclibc--bleeding-edge-2018.11-1.tar.bz2
             versioninfo_url: https://github.com/penosext/Cloudpan/releases/download/PenA6P/A6PversionInfo.tar.gz
             versioninfo_filename: A6PversionInfo.tar.gz
           - device: x5
