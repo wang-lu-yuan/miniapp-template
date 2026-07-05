@@ -29,5 +29,8 @@ CMakeFiles/
 Makefile
 cmake_install.cmake
 
+# Generated at build time from rawdict_utf16_65105_freq.txt
+jsapi/src/IME/rawdict_data.hpp
+
 # macOS
 .DS_Store

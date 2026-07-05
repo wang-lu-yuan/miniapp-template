@@ -116,27 +116,26 @@ target_link_libraries(${LIB_NAME} PRIVATE
 # ==============================================
 
 # ==============================================
-# 【可选1】自动生成字典模块
+# 自动生成字典模块
 # ==============================================
-# set(RAWDICT_TXT ${CMAKE_SOURCE_DIR}/rawdict_utf16_65105_freq.txt)
-# set(RAWDICT_TXT_UTF8 ${CMAKE_BINARY_DIR}/rawdict_utf8.txt)
-# set(RAWDICT_HPP ${CMAKE_SOURCE_DIR}/src/IME/rawdict_data.hpp)
-# 
-# add_custom_command(
-#     OUTPUT ${RAWDICT_HPP}
-#     COMMAND iconv -f UTF-16 -t UTF-8 ${RAWDICT_TXT} -o ${RAWDICT_TXT_UTF8}
-#     COMMAND ${CMAKE_COMMAND} -E echo "// Auto-generated" > ${RAWDICT_HPP}
-#     COMMAND ${CMAKE_COMMAND} -E echo "#pragma once" >> ${RAWDICT_HPP}
-#     COMMAND ${CMAKE_COMMAND} -E echo "#include <string>" >> ${RAWDICT_HPP}
-#     COMMAND ${CMAKE_COMMAND} -E echo "static const std::string RAWDICT_DATA = R\"DICT(" >> ${RAWDICT_HPP}
-#     COMMAND ${CMAKE_COMMAND} -E cat ${RAWDICT_TXT_UTF8} >> ${RAWDICT_HPP}
-#     COMMAND ${CMAKE_COMMAND} -E echo ")DICT\";" >> ${RAWDICT_HPP}
-#     VERBATIM
-# )
-# add_custom_target(generate_rawdict_data_hpp DEPENDS ${RAWDICT_HPP})
-# 
-# # 打开下面这行，把字典生成绑定到动态库
-# # add_dependencies(${LIB_NAME} generate_rawdict_data_hpp)
+set(RAWDICT_TXT ${CMAKE_SOURCE_DIR}/rawdict_utf16_65105_freq.txt)
+set(RAWDICT_TXT_UTF8 ${CMAKE_BINARY_DIR}/rawdict_utf8.txt)
+set(RAWDICT_HPP ${CMAKE_SOURCE_DIR}/src/IME/rawdict_data.hpp)
+
+add_custom_command(
+    OUTPUT ${RAWDICT_HPP}
+    COMMAND iconv -f UTF-16 -t UTF-8 ${RAWDICT_TXT} -o ${RAWDICT_TXT_UTF8}
+    COMMAND ${CMAKE_COMMAND} -E echo "// Auto-generated" > ${RAWDICT_HPP}
+    COMMAND ${CMAKE_COMMAND} -E echo "#pragma once" >> ${RAWDICT_HPP}
+    COMMAND ${CMAKE_COMMAND} -E echo "#include <string>" >> ${RAWDICT_HPP}
+    COMMAND ${CMAKE_COMMAND} -E echo "static const std::string RAWDICT_DATA = R\"DICT(" >> ${RAWDICT_HPP}
+    COMMAND ${CMAKE_COMMAND} -E cat ${RAWDICT_TXT_UTF8} >> ${RAWDICT_HPP}
+    COMMAND ${CMAKE_COMMAND} -E echo ")DICT\";" >> ${RAWDICT_HPP}
+    VERBATIM
+)
+add_custom_target(generate_rawdict_data_hpp DEPENDS ${RAWDICT_HPP})
+
+add_dependencies(${LIB_NAME} generate_rawdict_data_hpp)
 
 # ==============================================
 # 【可选2】项目本地预编译库查找（curl、sqlite3）
