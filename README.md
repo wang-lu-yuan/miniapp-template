@@ -8,7 +8,7 @@ The target hardware runs an **embedded Linux** system (busybox init). The build 
 
 | Device | Architecture |
 |--------|-------------|
-| A6P | ARMv7 (glibc, 2024.02) |
+| A6P | ARMv7 (uclibc, bleeding-edge 2018.11) |
 | X5 | ARMv7 (glibc, 2018.11) |
 | P5 | AArch64 (glibc, 2018.11) |
 | S6P | ARMv7 (glibc, 2018.11) |
