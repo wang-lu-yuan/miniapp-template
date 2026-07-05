@@ -19,37 +19,80 @@ import { defineComponent } from 'vue';
 
 export type indexOptions = {};
 
+const STORAGE_KEY = 'miniapp-template-demo';
+
 const index = defineComponent({
     data() {
         return {
             $page: {} as FalconPage<indexOptions>,
+            count: 0,
+            brightness: 50,
+            autoSave: true,
+            status: 'Ready.',
         };
     },
 
     methods: {
-        // /**
-        //  * 页面生命周期：页面进入前台
-        //  * 由 base-page.js 的 onShow() 代理调用
-        //  */
-        // onShow() {
-        //     // TODO: 页面显示时的逻辑
-        // },
-        //
-        // /**
-        //  * 页面生命周期：页面进入后台
-        //  * 由 base-page.js 的 onHide() 代理调用
-        //  */
-        // onHide() {
-        //     // TODO: 页面隐藏时的逻辑
-        // },
-        //
-        // /**
-        //  * 页面生命周期：页面卸载
-        //  * 由 base-page.js 的 onUnload() 代理调用
-        //  */
-        // onUnload() {
-        //     // TODO: 页面卸载时的清理逻辑
-        // },
+        increment() {
+            this.count++;
+            if (this.autoSave) {
+                this.save();
+            }
+        },
+
+        decrement() {
+            if (this.count > 0) {
+                this.count--;
+                if (this.autoSave) {
+                    this.save();
+                }
+            }
+        },
+
+        reset() {
+            this.count = 0;
+            this.brightness = 50;
+            this.status = 'Reset done.';
+        },
+
+        onBrightnessChange(value: number) {
+            this.brightness = value;
+        },
+
+        onAutoSaveChange(value: boolean) {
+            this.autoSave = value;
+            this.status = value ? 'Auto-save enabled.' : 'Auto-save disabled.';
+        },
+
+        async save() {
+            try {
+                const data = JSON.stringify({ count: this.count, brightness: this.brightness });
+                await $falcon.jsapi.storage.setStorage({ key: STORAGE_KEY, data });
+                this.status = 'Saved to device storage.';
+            } catch (err) {
+                this.status = 'Save failed: ' + err;
+            }
+        },
+
+        async load() {
+            try {
+                const res = await $falcon.jsapi.storage.getStorage({ key: STORAGE_KEY });
+                const parsed = JSON.parse(res.data);
+                this.count = parsed.count ?? 0;
+                this.brightness = parsed.brightness ?? 50;
+                this.status = 'Loaded from device storage.';
+            } catch (err) {
+                this.status = 'Nothing stored yet.';
+            }
+        },
+
+        /**
+         * 页面生命周期：页面进入前台
+         * 由 base-page.js 的 onShow() 代理调用
+         */
+        onShow() {
+            this.load();
+        },
     }
 });
 
