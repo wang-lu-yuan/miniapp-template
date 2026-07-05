@@ -64,7 +64,7 @@ execute_process(COMMAND echo -e "\\033[31m======================================
 # ==============================================
 project(jsapi_langningchen C CXX)
 
-set(LIB_NAME jsapi_xxxxxxxxx)
+set(LIB_NAME jsapi_langningchen)
 set(MID_LIB_NAME iot_sdk_lib)
 set(IOT_UI_SDK_PATH "${CMAKE_SOURCE_DIR}/iot-miniapp-sdk")
 
